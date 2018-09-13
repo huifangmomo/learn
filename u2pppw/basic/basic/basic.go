@@ -6,13 +6,15 @@ import (
 	"math/cmplx"
 )
 
+
+//在函数外必须有关键字var   b := 3 这种初始化是不行的
 var (
 	aa = 3
 	ss = "kkk"
 	bb = true
-)
+)//包内部变量  不是全局变量  作用域是包内部
 
-func variableZeroValue() {
+func variableZeroValue() {  //变量定义后是有初始值的
 	var a int
 	var s string
 	fmt.Printf("%d %q\n", a, s)
@@ -36,8 +38,16 @@ func variableShorter() {
 }
 
 func euler() {
+	c := 3 + 4i
+	fmt.Println(c)
+	fmt.Println(cmplx.Abs(c))  //取模也就是绝对值
+	//---------------------------------欧拉公式--------
+	fmt.Println(cmplx.Pow(math.E,1i * math.Pi)+1)
+	fmt.Println(cmplx.Exp(1i * math.Pi)+1)
 	fmt.Printf("%.3f\n",
 		cmplx.Exp(1i*math.Pi)+1)
+	//------------------------------------------------
+
 }
 
 func triangle() {
@@ -63,7 +73,7 @@ func consts() {
 
 func enums() {
 	const (
-		cpp = iota
+		cpp = iota   //iota 表示自增值的
 		_
 		python
 		golang
