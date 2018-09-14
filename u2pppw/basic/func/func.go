@@ -29,6 +29,7 @@ func div(a, b int) (q, r int) {
 }
 
 func apply(op func(int, int) int, a, b int) int {
+	//获取函数名字
 	p := reflect.ValueOf(op).Pointer()
 	opName := runtime.FuncForPC(p).Name()
 	fmt.Printf("Calling function %s with args "+
