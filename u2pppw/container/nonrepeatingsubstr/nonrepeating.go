@@ -8,16 +8,22 @@ func lengthOfNonRepeatingSubStr(s string) int {
 	lastOccurred := make(map[rune]int)
 	start := 0
 	maxLength := 0
+	str := ""
 
 	for i, ch := range []rune(s) {
+
 		if lastI, ok := lastOccurred[ch]; ok && lastI >= start {
 			start = lastI + 1
 		}
 		if i-start+1 > maxLength {
 			maxLength = i - start + 1
+
+			str = string([]rune(s)[start:i+1])
 		}
 		lastOccurred[ch] = i
 	}
+
+	fmt.Println(str)
 
 	return maxLength
 }
@@ -42,4 +48,10 @@ func main() {
 	fmt.Println(
 		lengthOfNonRepeatingSubStr(
 			"黑化肥挥发发灰会花飞灰化肥挥发发黑会飞花"))
+	fmt.Println(
+		lengthOfNonRepeatingSubStr(
+			"abcdce"))
+	fmt.Println(
+		lengthOfNonRepeatingSubStr(
+			"ecabcd"))
 }
