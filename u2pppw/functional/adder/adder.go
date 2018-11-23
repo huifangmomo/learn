@@ -27,4 +27,10 @@ func main() {
 		fmt.Printf("0 + 1 + ... + %d = %d\n",
 			i, s)
 	}
+
+	b := adder()
+	for i := 0; i<10 ; i++ {
+		fmt.Printf("0 + 1 + ... + %d = %d\n",
+			i, b(i))
+	}
 }

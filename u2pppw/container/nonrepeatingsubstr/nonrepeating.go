@@ -8,7 +8,7 @@ func lengthOfNonRepeatingSubStr(s string) int {
 	lastOccurred := make(map[rune]int)
 	start := 0
 	maxLength := 0
-	str := ""
+	//str := ""
 
 	for i, ch := range []rune(s) {
 
@@ -18,12 +18,12 @@ func lengthOfNonRepeatingSubStr(s string) int {
 		if i-start+1 > maxLength {
 			maxLength = i - start + 1
 
-			str = string([]rune(s)[start:i+1])
+			//str = string([]rune(s)[start:i+1])
 		}
 		lastOccurred[ch] = i
 	}
 
-	fmt.Println(str)
+	//fmt.Println(str)
 
 	return maxLength
 }

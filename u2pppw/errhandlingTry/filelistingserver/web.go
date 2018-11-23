@@ -1,48 +1,31 @@
 package main
 
 import (
-	"log"
+	"github.com/gpmgo/gopm/modules/log"
+	"learn/u2pppw/errhandlingTry/filelistingserver/filelisting"
 	"net/http"
-	_ "net/http/pprof"
 	"os"
-
-	"learn/u2pppw/errhandling/filelistingserver/filelisting"
 )
 
 type appHandler func(writer http.ResponseWriter,
 	request *http.Request) error
 
-func errWrapper(
-	handler appHandler) func(
-	http.ResponseWriter, *http.Request) {
-	return func(writer http.ResponseWriter,
-		request *http.Request) {
-		// panic
+func errWrapper(handler appHandler) func(http.ResponseWriter, *http.Request){
+	return  func(writer http.ResponseWriter, request *http.Request){
 		defer func() {
 			if r := recover(); r != nil {
-				log.Printf("Panic: %v", r)
-				http.Error(writer,
-					http.StatusText(http.StatusInternalServerError),
-					http.StatusInternalServerError)
+				log.Warn("Panic: %v", r)
+				http.Error(writer, http.StatusText(http.StatusInternalServerError),http.StatusInternalServerError)
 			}
 		}()
-
 		err := handler(writer, request)
-
 		if err != nil {
-			log.Printf("Error occurred "+
-				"handling request: %s",
-				err.Error())
-
-			// user error
+			log.Warn("Error handling request: %s", err.Error())
 			if userErr, ok := err.(userError); ok {
-				http.Error(writer,
-					userErr.Message(),
-					http.StatusBadRequest)
+				http.Error(writer, userErr.Message(), http.StatusBadRequest)
 				return
 			}
 
-			// system error
 			code := http.StatusOK
 			switch {
 			case os.IsNotExist(err):
@@ -64,8 +47,7 @@ type userError interface {
 }
 
 func main() {
-	http.HandleFunc("/",
-		errWrapper(filelisting.HandleFileList))
+	http.HandleFunc("/",errWrapper(filelisting.HandleFileList))
 
 	err := http.ListenAndServe(":8888", nil)
 	if err != nil {

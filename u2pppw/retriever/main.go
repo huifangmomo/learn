@@ -2,11 +2,9 @@ package main
 
 import (
 	"fmt"
-
+	"learn/u2pppw/retriever/mock"
+	"learn/u2pppw/retriever/real"
 	"time"
-
-	"imooc.com/ccmouse/learngo/retriever/mock"
-	"imooc.com/ccmouse/learngo/retriever/real"
 )
 
 type Retriever interface {
@@ -50,12 +48,14 @@ func main() {
 	mockRetriever := mock.Retriever{
 		Contents: "this is a fake imooc.com"}
 	r = &mockRetriever
+
 	inspect(r)
 
 	r = &real.Retriever{
 		UserAgent: "Mozilla/5.0",
 		TimeOut:   time.Minute,
 	}
+
 	inspect(r)
 
 	// Type assertion
